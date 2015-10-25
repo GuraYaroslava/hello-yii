@@ -28,6 +28,7 @@ class RegistrationForm extends CFormModel
     {
         return array(
             'repeatPassword' => 'Repeat password',
+            'rememberMe' => 'Remember me next time',
         );
     }
 
