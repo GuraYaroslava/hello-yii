@@ -1,20 +1,21 @@
 <?php
 
 /**
- * This is the model class for table "event".
+ * This is the model class for table "event_form".
  *
- * The followings are the available columns in table 'event':
+ * The followings are the available columns in table 'event_form':
  * @property integer $id
- * @property string $name
+ * @property integer $event_id
+ * @property integer $form_id
  */
-class Event extends CActiveRecord
+class EventForm extends CActiveRecord
 {
     /**
      * @return string the associated database table name
      */
     public function tableName()
     {
-        return 'event';
+        return 'event_form';
     }
 
     /**
@@ -25,11 +26,11 @@ class Event extends CActiveRecord
         // NOTE: you should only define rules for those attributes that
         // will receive user inputs.
         return array(
-            array('name', 'required'),
-            array('name', 'length', 'max' => 128),
+            array('event_id, form_id', 'required'),
+            array('event_id, form_id', 'numerical', 'integerOnly' => true),
             // The following rule is used by search().
             // @todo Please remove those attributes that should not be searched.
-            array('id, name', 'safe', 'on' => 'search'),
+            array('id, event_id, form_id', 'safe', 'on' => 'search'),
         );
     }
 
@@ -38,8 +39,9 @@ class Event extends CActiveRecord
      */
     public function relations()
     {
+        // NOTE: you may need to adjust the relation name and the related
+        // class name for the relations automatically generated below.
         return array(
-            'forms' => array(self::MANY_MANY, 'Form', 'event_form(event_id, form_id)'),
         );
     }
 
@@ -50,7 +52,8 @@ class Event extends CActiveRecord
     {
         return array(
             'id' => 'ID',
-            'name' => 'Name',
+            'event_id' => 'Event',
+            'form_id' => 'Form',
         );
     }
 
@@ -73,7 +76,8 @@ class Event extends CActiveRecord
         $criteria=new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name,true);
+        $criteria->compare('event_id', $this->event_id);
+        $criteria->compare('form_id', $this->form_id);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
@@ -84,7 +88,7 @@ class Event extends CActiveRecord
      * Returns the static model of the specified AR class.
      * Please note that you should have this exact method in all your CActiveRecord descendants!
      * @param string $className active record class name.
-     * @return Event the static model class
+     * @return EventForm the static model class
      */
     public static function model($className=__CLASS__)
     {
