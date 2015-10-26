@@ -16,14 +16,14 @@
     <?php echo $form->errorSummary($model); ?>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'event_id'); ?>
-        <?php echo $form->textField($model, 'event_id'); ?>
+        <?php echo $form->labelEx($model, 'event_id'); $events = Event::model()->findAll(); ?>
+        <?php echo $form->dropDownList($model, 'event_id', CHtml::listData($events, 'id', 'name')); ?>
         <?php echo $form->error($model, 'event_id'); ?>
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'form_id'); ?>
-        <?php echo $form->textField($model, 'form_id'); ?>
+        <?php echo $form->labelEx($model, 'form_id'); $forms = Form::model()->findAll(); ?>
+        <?php echo $form->dropDownList($model, 'form_id', CHtml::listData($forms, 'id', 'name')); ?>
         <?php echo $form->error($model, 'form_id'); ?>
     </div>
 
