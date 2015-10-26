@@ -20,11 +20,24 @@ $this->menu = array(
 
 <h1>View Form #<?php echo $model->id; ?></h1>
 
-<?php $this->widget('zii.widgets.CDetailView', array(
+<?php
+
+$events = '';
+foreach ($model->events as $key => $event)
+{
+    $events .= '<div><b>' . CHtml::link(CHtml::encode($event->name), array('/event/view', 'id' => $event->id)) . '</div>';
+}
+
+$this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
         'id',
         'name',
+        array(
+            'name' => 'events',
+            'type' => 'raw',
+            'value' => $events,
+        ),
     ),
 ));
 ?>

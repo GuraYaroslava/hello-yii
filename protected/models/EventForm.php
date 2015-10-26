@@ -23,13 +23,9 @@ class EventForm extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('event_id, form_id', 'required'),
             array('event_id, form_id', 'numerical', 'integerOnly' => true),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, event_id, form_id', 'safe', 'on' => 'search'),
         );
     }
@@ -39,9 +35,9 @@ class EventForm extends CActiveRecord
      */
     public function relations()
     {
-        // NOTE: you may need to adjust the relation name and the related
-        // class name for the relations automatically generated below.
         return array(
+            'event' => array(self::BELONGS_TO, 'Event', 'event_id'),
+            'form' => array(self::BELONGS_TO, 'Form', 'form_id'),
         );
     }
 
@@ -71,8 +67,6 @@ class EventForm extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria=new CDbCriteria;
 
         $criteria->compare('id', $this->id);

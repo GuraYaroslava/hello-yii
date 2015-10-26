@@ -22,13 +22,9 @@ class Event extends CActiveRecord
      */
     public function rules()
     {
-        // NOTE: you should only define rules for those attributes that
-        // will receive user inputs.
         return array(
             array('name', 'required'),
             array('name', 'length', 'max' => 128),
-            // The following rule is used by search().
-            // @todo Please remove those attributes that should not be searched.
             array('id, name', 'safe', 'on' => 'search'),
         );
     }
@@ -68,12 +64,10 @@ class Event extends CActiveRecord
      */
     public function search()
     {
-        // @todo Please modify the following code to remove attributes that should not be searched.
-
         $criteria=new CDbCriteria;
 
         $criteria->compare('id', $this->id);
-        $criteria->compare('name', $this->name,true);
+        $criteria->compare('name', $this->name, true);
 
         return new CActiveDataProvider($this, array(
             'criteria' => $criteria,
