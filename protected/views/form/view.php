@@ -28,6 +28,12 @@ foreach ($model->events as $key => $event)
     $events .= '<div><b>' . CHtml::link(CHtml::encode($event->name), array('/event/view', 'id' => $event->id)) . '</div>';
 }
 
+$params = '';
+foreach ($model->params as $key => $param)
+{
+    $params .= '<div><b>' . CHtml::link(CHtml::encode($param->name), array('/param/view', 'id' => $param->id)) . '</div>';
+}
+
 $this->widget('zii.widgets.CDetailView', array(
     'data' => $model,
     'attributes' => array(
@@ -38,6 +44,11 @@ $this->widget('zii.widgets.CDetailView', array(
             'type' => 'raw',
             'value' => $events,
         ),
+        array(
+            'name' => 'params',
+            'type' => 'raw',
+            'value' => $params,
+        )
     ),
 ));
 ?>

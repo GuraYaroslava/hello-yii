@@ -17,13 +17,13 @@
     </div>
 
     <div class="row">
-        <?php echo $form->label($model, 'event_id'); ?>
-        <?php echo $form->textField($model, 'event_id'); ?>
+        <?php echo $form->label($model, 'event_id'); $events = Event::model()->findAll(); ?>
+        <?php echo $form->dropDownList($model, 'event_id', CHtml::listData($events, 'id', 'name')); ?>
     </div>
 
     <div class="row">
-        <?php echo $form->label($model, 'form_id'); ?>
-        <?php echo $form->textField($model, 'form_id'); ?>
+        <?php echo $form->label($model, 'form_id'); $forms = Form::model()->findAll(); ?>
+        <?php echo $form->dropDownList($model, 'form_id', CHtml::listData($forms, 'id', 'name')); ?>
     </div>
 
     <div class="row buttons">

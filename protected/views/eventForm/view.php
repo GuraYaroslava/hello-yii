@@ -7,7 +7,7 @@ $this->breadcrumbs = array(
     $model->id,
 );
 
-$this->menu=array(
+$this->menu = array(
     array('label' => 'List EventForm', 'url' => array('index')),
     array('label' => 'Create EventForm', 'url' => array('create')),
     array('label' => 'Update EventForm', 'url' => array('update', 'id' => $model->id)),
@@ -24,8 +24,16 @@ $this->menu=array(
     'data' => $model,
     'attributes' => array(
         'id',
-        'event_id',
-        'form_id',
+        array(
+            'name' => 'event',
+            'type' => 'raw',
+            'value' => CHtml::link(CHtml::encode($model->event->name), array('/event/view', 'id' => $model->event->id)),
+        ),
+        array(
+            'name' => 'form',
+            'type' => 'raw',
+            'value' => CHtml::link(CHtml::encode($model->form->name), array('/form/view', 'id' => $model->form->id)),
+        )
     ),
 ));
 ?>
