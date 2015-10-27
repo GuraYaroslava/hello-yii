@@ -32,7 +32,7 @@ class UserController extends Controller
                 'users' => array('*'),
             ),
             array('allow',
-                'actions' => array('profile', 'blank'),
+                'actions' => array('profile', 'blank', 'blanks'),
                 'users' => array('@'),
             ),
             array('allow',
@@ -164,13 +164,6 @@ class UserController extends Controller
     public function actionProfile()
     {
         $model = $this->loadModel(Yii::app()->user->getId());
-        $events = Yii::app()->db->createCommand()
-            ->select('e.id, e.name')
-            ->from('event e')
-            ->join('reg r', 'r.event_id=e.id')
-            ->join('user u', 'u.id=r.user_id')
-            ->where('u.id=:user_id', array(':user_id'=>Yii::app()->user->getId()))
-            ->queryAll();
 
         if (isset($_POST['User']))
         {
@@ -181,7 +174,21 @@ class UserController extends Controller
             }
         }
 
-        $this->render('profile', array('model' => $model, 'events' => $events));
+        $this->render('profile', array('model' => $model));
+    }
+
+    public function actionBlanks()
+    {
+        $model = $this->loadModel(Yii::app()->user->getId());
+        $events = Yii::app()->db->createCommand()
+            ->select('e.id, e.name')
+            ->from('event e')
+            ->join('reg r', 'r.event_id=e.id')
+            ->join('user u', 'u.id=r.user_id')
+            ->where('u.id=:user_id', array(':user_id'=>Yii::app()->user->getId()))
+            ->queryAll();
+
+        $this->render('blanks', array('model' => $model, 'events' => $events));
     }
 
     public function actionBlank($userId, $eventId)

@@ -1,7 +1,6 @@
 <?php
 /* @var $this UserController */
 /* @var $model User */
-/* @var $events array */
 
 $this->breadcrumbs = array('Profile');
 
@@ -13,24 +12,3 @@ foreach(Yii::app()->user->getFlashes() as $key => $message) {
 <h1>Profile of <strong><?php echo Yii::app()->user->name; ?></strong></h1>
 
 <?php $this->renderPartial('_form', array('model' => $model)); ?>
-<hr style="height:30px">
-<h1>List of <strong>Blanks!!!</string></h1>
-<?php
-    foreach ($events as $key => $event) {
-        $this->widget('zii.widgets.CDetailView',
-            array(
-                'data' => $event,
-                'attributes' => array(
-                    array(
-                        'name' => 'event',
-                        'type' => 'raw',
-                        'value' => CHtml::link(
-                            CHtml::encode($event['name']),
-                            array('/user/blank', 'userId' => $model->id, 'eventId' => $event['id'])
-                        ),
-                    )
-                )
-            )
-        );
-    }
-?>

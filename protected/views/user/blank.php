@@ -3,6 +3,10 @@
 /* @var $data array */
 
 $this->pageTitle = Yii::app()->name . ' - Blank';
+$this->breadcrumbs = array(
+    'Blanks' => array('blanks'),
+    'Blank',
+);
 
 Yii::app()->clientScript->registerCoreScript('jquery');
 Yii::app()->clientScript->registerCoreScript('jquery.ui');

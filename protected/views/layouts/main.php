@@ -36,6 +36,7 @@
                 array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
                 array('label'=>'Registration', 'url'=>array('/site/registration'), 'visible'=>Yii::app()->user->isGuest),
                 array('label'=>'Profile', 'url'=>array('/user/profile'), 'visible'=>!Yii::app()->user->isGuest),
+                array('label'=>'Blanks', 'url'=>array('/user/blanks'), 'visible'=>!Yii::app()->user->isGuest),
             ),
         )); ?>
     </div><!-- mainmenu -->
