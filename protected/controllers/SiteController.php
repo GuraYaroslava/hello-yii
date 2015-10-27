@@ -151,6 +151,8 @@ class SiteController extends Controller
                         // @todo Откат всех инсертов.
                         throw new CHttpException(500, 'Internal server error.');
                 }
+                echo CJSON::encode(array('code' => 200));
+                Yii::app()->end();
             }
             catch (CDbException $error)
             {
