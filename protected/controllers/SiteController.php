@@ -137,30 +137,25 @@ class SiteController extends Controller
             $reg = new Reg;
             $reg->user_id = Yii::app()->user->getId();
             $reg->event_id = $event->id;
-
-            if ($reg->save())
+            try
             {
+                if (!$reg->save())
+                    throw new CHttpException(500, 'Internal server error.');
+
                 foreach ($data as $key => $value) {
                     $param_value = new ParamValue;
                     $param_value->param_id = $value["id"];
                     $param_value->reg_id = $reg->id;
                     $param_value->value = $value["value"];
                     if (!$param_value->save())
-                    {
                         // @todo Откат всех инсертов.
-                        echo CJSON::encode(array(
-                            'error' => 'true',
-                            'status' => 'Bad request',
-                        ));
-                        Yii::app()->end();
-                    }
+                        throw new CHttpException(500, 'Internal server error.');
                 }
             }
-            echo CJSON::encode(array(
-                'error' => 'false',
-                'status' => 'Ok',
-            ));
-            Yii::app()->end();
+            catch (CDbException $error)
+            {
+                throw new CHttpException(400, 'You are already registered for this event.');
+            }
         }
 
         $this->render('blank', array('event' => $event));
