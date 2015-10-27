@@ -5,7 +5,7 @@
 $this->pageTitle = Yii::app()->name . ' - Blank';
 $this->breadcrumbs = array('Blank');
 
-Yii::app()->clientScript->registerCoreScript('jquery');     
+Yii::app()->clientScript->registerCoreScript('jquery');
 Yii::app()->clientScript->registerCoreScript('jquery.ui');
 
 $cs = Yii::app()->getClientScript();
@@ -36,10 +36,11 @@ $cs->registerCssFile(
 
         <?php foreach ($form->params as $key => $param) { ?>
             <script type="text/javascript">
-                $(divTabForm).append(drawParam(<?=CJSON::encode($param) ?>));
+                $(divTabForm).append(drawParam(<?=CJSON::encode($param) ?>, false));
             </script>
         <?php }
-    } ?>
+    }
+?>
 
 <button id="save">Save</button>
 

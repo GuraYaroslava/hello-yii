@@ -32,7 +32,7 @@ class UserController extends Controller
                 'users' => array('*'),
             ),
             array('allow',
-                'actions' => array('profile'),
+                'actions' => array('profile', 'blank'),
                 'users' => array('@'),
             ),
             array('allow',
@@ -164,6 +164,13 @@ class UserController extends Controller
     public function actionProfile()
     {
         $model = $this->loadModel(Yii::app()->user->getId());
+        $events = Yii::app()->db->createCommand()
+            ->select('e.id, e.name')
+            ->from('event e')
+            ->join('reg r', 'r.event_id=e.id')
+            ->join('user u', 'u.id=r.user_id')
+            ->where('u.id=:user_id', array(':user_id'=>Yii::app()->user->getId()))
+            ->queryAll();
 
         if (isset($_POST['User']))
         {
@@ -174,6 +181,24 @@ class UserController extends Controller
             }
         }
 
-        $this->render('profile', array('model' => $model));
+        $this->render('profile', array('model' => $model, 'events' => $events));
+    }
+
+    public function actionBlank($userId, $eventId)
+    {
+        $data = Yii::app()->db->createCommand()
+            ->select('p.id as param_id, p.name as name, p_t.id as param_type_id, p_v.value, f.id as form_id, f.name as form_name, e.name as event_name')
+            ->from('event e')
+            ->join('event_form e_f', 'e_f.event_id=e.id')
+            ->join('form f', 'f.id=e_f.id')
+            ->join('reg r', 'r.event_id=e.id')
+            ->join('user u', 'u.id=r.user_id')
+            ->join('param p', 'p.form_id=f.id')
+            ->join('param_type p_t', 'p_t.id=p.param_type_id')
+            ->join('param_value p_v', 'p_v.param_id=p.id AND p_v.reg_id=r.id')
+            ->where('u.id=:user_id AND e.id=:event_id', array(':user_id' => $userId, ':event_id' => $eventId))
+            ->queryAll();
+
+        $this->render('blank', array('data' => $data));
     }
 }
