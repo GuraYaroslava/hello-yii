@@ -22,7 +22,7 @@
     </div>
 
     <div class="row">
-        <?php echo $form->labelEx($model, 'param_type_id'); $param_types = ParamType::model()->fineAll(); ?>
+        <?php echo $form->labelEx($model, 'param_type_id'); $param_types = ParamType::model()->findAll(); ?>
         <?php echo $form->dropDownList($model, 'param_type_id', CHtml::listData($param_types, 'id', 'name')); ?>
         <?php echo $form->error($model, 'param_type_id'); ?>
     </div>
