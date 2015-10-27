@@ -26,9 +26,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // renders the view file 'protected/views/site/index.php'
-        // using the default layout 'protected/views/layouts/main.php'
-        $this->render('index');
+        $dataProvider = new CActiveDataProvider('Event');
+        $this->render('index', array(
+            'dataProvider' => $dataProvider,
+        ));
     }
 
     /**
@@ -62,7 +63,6 @@ class SiteController extends Controller
                     "Reply-To: {$model->email}\r\n".
                     "MIME-Version: 1.0\r\n".
                     "Content-Type: text/plain; charset=UTF-8";
-
                 mail(Yii::app()->params['adminEmail'], $subject, $model->body, $headers);
                 Yii::app()->user->setFlash('contact', 'Thank you for contacting us. We will respond to you as soon as possible.');
                 $this->refresh();
@@ -124,5 +124,45 @@ class SiteController extends Controller
     {
         Yii::app()->user->logout();
         $this->redirect(Yii::app()->homeUrl);
+    }
+
+    public function actionBlank($id)
+    {
+        $event = Event::model()->findByPk($id);
+
+        if (Yii::app()->request->isAjaxRequest)
+        {
+            $data = Yii::app()->request->getParam('data');
+
+            $reg = new Reg;
+            $reg->user_id = Yii::app()->user->getId();
+            $reg->event_id = $event->id;
+
+            if ($reg->save())
+            {
+                foreach ($data as $key => $value) {
+                    $param_value = new ParamValue;
+                    $param_value->param_id = $value["id"];
+                    $param_value->reg_id = $reg->id;
+                    $param_value->value = $value["value"];
+                    if (!$param_value->save())
+                    {
+                        // @todo Откат всех инсертов.
+                        echo CJSON::encode(array(
+                            'error' => 'true',
+                            'status' => 'Bad request',
+                        ));
+                        Yii::app()->end();
+                    }
+                }
+            }
+            echo CJSON::encode(array(
+                'error' => 'false',
+                'status' => 'Ok',
+            ));
+            Yii::app()->end();
+        }
+
+        $this->render('blank', array('event' => $event));
     }
 }
