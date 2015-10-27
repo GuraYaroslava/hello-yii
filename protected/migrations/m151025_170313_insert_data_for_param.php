@@ -11,6 +11,8 @@ class m151025_170313_insert_data_for_param extends CDbMigration
                 1 => array('name' => 'Date', 'param_type_id' => 3, 'form_id' => 1),
                 2 => array('name' => 'Story', 'param_type_id' => 2, 'form_id' => 2),
                 3 => array('name' => 'Fairytale', 'param_type_id' => 2, 'form_id' => 3),
+                4 => array('name' => 'Creed', 'param_type_id' => 2, 'form_id' => 4),
+                5 => array('name' => 'World view', 'param_type_id' => 2, 'form_id' => 5),
             )
         );
     }
@@ -21,5 +23,7 @@ class m151025_170313_insert_data_for_param extends CDbMigration
         $this->delete('param', 'name = :name', array(':name' => 'Date'));
         $this->delete('param', 'name = :name', array(':name' => 'Story'));
         $this->delete('param', 'name = :name', array(':name' => 'Fairytale'));
+        $this->delete('param', 'name = :name', array(':name' => 'Creed'));
+        $this->delete('param', 'name = :name', array(':name' => 'Political views'));
     }
 }
