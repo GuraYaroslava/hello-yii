@@ -17,4 +17,9 @@
     <?php echo CHtml::encode(User::model()->findByPk($data->user_id)->username); ?>
     <br />
 
+    <b>
+    <?php echo CHtml::link(CHtml::encode('blank'), array('/user/blank', 'userId' => $data->user_id, 'eventId' => $data->event_id)); ?>
+    </br>
+    <br />
+
 </div>
