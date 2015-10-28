@@ -160,6 +160,13 @@ class SiteController extends Controller
             }
         }
 
+        $reg = Reg::model()->findByAttributes(array('user_id' => Yii::app()->user->getId(), 'event_id' => $id));
+        if ($reg !== null)
+        {
+            $this->redirect(array('user/blank', 'userId' => Yii::app()->user->getId(), 'eventId' => $id));
+            Yii::app()->end();
+        }
+
         $this->render('blank', array('event' => $event));
     }
 }
